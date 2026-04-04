@@ -3,12 +3,17 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
     "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "declarationMap": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/cli" }
+  ]
 }

@@ -1,0 +1,16 @@
+{
+  "name": "@skillauditai/cli",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "bin": {
+    "skillaudit": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@skillauditai/core": "*",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3"
+  }
+}

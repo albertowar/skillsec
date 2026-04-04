@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DangerousToolsCheck } from '../../../src/core/checks/dangerous-tools';
+import { DangerousToolsCheck } from '../../src/checks/dangerous-tools';
 
 describe('DangerousToolsCheck', () => {
   it('should score low if run_shell_command is present', async () => {

@@ -1,6 +1,5 @@
 import { readFileSync } from 'fs';
-import { parseSkill } from './core/parser';
-import { Auditor } from './core/auditor';
+import { parseSkill, Auditor } from '@skillauditai/core';
 import chalk from 'chalk';
 
 async function run() {

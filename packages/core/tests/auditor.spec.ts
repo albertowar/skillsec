@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Auditor } from '../../src/core/auditor';
+import { Auditor } from '../src/auditor';
 
 describe('Auditor', () => {
   it('should perform an audit and return a report', async () => {
