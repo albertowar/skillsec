@@ -1,0 +1,22 @@
+{
+  "name": "@skillauditai/core",
+  "version": "0.1.0",
+  "description": "Security auditor for AI skills",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "zod": "^3.22.0",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.8.0"
+  }
+}
