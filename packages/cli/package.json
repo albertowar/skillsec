@@ -6,7 +6,8 @@
     "skillaudit": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "echo \"No tests defined yet for CLI\""
   },
   "dependencies": {
     "@skillauditai/core": "*",

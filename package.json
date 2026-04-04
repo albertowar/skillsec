@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "test": "npm run test --workspaces"
+    "test": "npm run test --workspaces",
+    "lint": "npm run build"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
