@@ -18,17 +18,17 @@ describe('Auditor', () => {
     expect(report.timestamp).toBeDefined();
   });
 
-  it('should calculate weighted score correctly', async () => {
+  it('should calculate weighted score correctly when all checks fail', async () => {
     const auditor = new Auditor();
     const context = {
       tools: ['run_shell_command'],
-      raw: 'dangerous skill',
+      raw: 'dangerous skill with secret sk-12345678901234567890',
       systemPrompt: '',
       examples: []
     };
     const report = await auditor.audit(context);
     
-    // DangerousToolsCheck has weight 1.0 and returns 0 for run_shell_command
+    // Both DangerousToolsCheck and SecretScanningCheck fail
     expect(report.finalScore).toBe(0);
   });
 });

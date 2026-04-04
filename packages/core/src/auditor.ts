@@ -1,13 +1,32 @@
-import { AuditReport, SkillContext, BaseCheck } from './types';
+import { AuditReport, SkillContext, BaseCheck, CheckResult } from './types';
 import { DangerousToolsCheck } from './checks/dangerous-tools';
+import { SecretScanningCheck } from './checks/secret-scanning';
 import * as crypto from 'crypto';
 
 export class Auditor {
-  private checks: BaseCheck[] = [new DangerousToolsCheck()];
+  private checks: BaseCheck[] = [
+    new DangerousToolsCheck(),
+    new SecretScanningCheck()
+  ];
 
   async audit(context: SkillContext): Promise<AuditReport> {
-    const results = await Promise.all(this.checks.map(c => c.run(context)));
-    
+    const outcomes = await Promise.allSettled(this.checks.map(c => c.run(context)));
+
+    const results: CheckResult[] = outcomes.map((outcome, index) => {
+      const check = this.checks[index];
+      if (outcome.status === 'fulfilled') {
+        return outcome.value;
+      } else {
+        return {
+          id: check.id,
+          name: check.name,
+          score: 0,
+          level: 'Critical',
+          justification: `Check failed: ${outcome.reason}`
+        };
+      }
+    });
+
     const weightedScore = results.reduce((acc, r) => {
       const check = this.checks.find(c => c.id === r.id);
       return acc + (r.score * (check?.weight || 1));
