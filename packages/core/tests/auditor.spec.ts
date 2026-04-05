@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Auditor } from '../src/auditor';
+import { DangerousToolsCheck } from '../src/checks/dangerous-tools';
+import { SecretScanningCheck } from '../src/checks/secret-scanning';
 
 describe('Auditor', () => {
   it('should perform an audit and return a report', async () => {
