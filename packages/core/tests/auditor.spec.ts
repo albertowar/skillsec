@@ -19,7 +19,11 @@ describe('Auditor', () => {
   });
 
   it('should calculate weighted score correctly when all checks fail', async () => {
-    const auditor = new Auditor();
+    // Explicitly provide checks to verify the logic regardless of default checks
+    const auditor = new Auditor([
+      new DangerousToolsCheck(),
+      new SecretScanningCheck()
+    ]);
     const context = {
       tools: ['run_shell_command'],
       raw: 'dangerous skill with secret sk-12345678901234567890',

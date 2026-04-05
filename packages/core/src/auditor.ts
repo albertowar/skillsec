@@ -1,6 +1,9 @@
 import { AuditReport, SkillContext, BaseCheck, CheckResult, BehavioralConfig } from './types';
 import { DangerousToolsCheck } from './checks/dangerous-tools';
 import { SecretScanningCheck } from './checks/secret-scanning';
+import { ToolChainingCheck } from './checks/tool-chaining';
+import { ExfiltrationVectorCheck } from './checks/exfiltration';
+import { IndirectInjectionCheck } from './checks/indirect-injection';
 import { BehavioralService } from './behavioral';
 import * as crypto from 'crypto';
 
@@ -15,7 +18,10 @@ export class Auditor {
     if (this.checks.length === 0) {
       this.checks = [
         new DangerousToolsCheck(),
-        new SecretScanningCheck()
+        new SecretScanningCheck(),
+        new ToolChainingCheck(),
+        new ExfiltrationVectorCheck(),
+        new IndirectInjectionCheck()
       ];
     }
   }
