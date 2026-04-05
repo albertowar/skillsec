@@ -29,6 +29,13 @@ npm install
 npm run build
 ```
 
+## 📖 Documentation
+
+- [CLI Usage Guide](docs/usage.md)
+- [Interpreting Results](docs/interpreting-results.md)
+- [Architecture Overview](docs/architecture.md)
+- [Extending the Auditor](docs/extending.md)
+
 ## 🧩 Extending SkillAuditAI
 
 To add a new security check, implement the `BaseCheck` interface in `@skillauditai/core`:
