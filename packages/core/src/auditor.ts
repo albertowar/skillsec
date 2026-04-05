@@ -4,6 +4,11 @@ import { SecretScanningCheck } from './checks/secret-scanning';
 import { ToolChainingCheck } from './checks/tool-chaining';
 import { ExfiltrationVectorCheck } from './checks/exfiltration';
 import { IndirectInjectionCheck } from './checks/indirect-injection';
+import { LeastPrivilegeCheck } from './checks/least-privilege';
+import { PromptInjectionCheck } from './checks/prompt-injection';
+import { DependencyAuditCheck } from './checks/dependency-audit';
+import { VerifiedAuthorCheck } from './checks/verified-author';
+import { MaintenanceCheck } from './checks/maintenance';
 import { BehavioralService } from './behavioral';
 import * as crypto from 'crypto';
 
@@ -21,7 +26,12 @@ export class Auditor {
         new SecretScanningCheck(),
         new ToolChainingCheck(),
         new ExfiltrationVectorCheck(),
-        new IndirectInjectionCheck()
+        new IndirectInjectionCheck(),
+        new LeastPrivilegeCheck(),
+        new PromptInjectionCheck(),
+        new DependencyAuditCheck(),
+        new VerifiedAuthorCheck(),
+        new MaintenanceCheck()
       ];
     }
   }

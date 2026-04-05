@@ -15,11 +15,25 @@ export interface AuditReport {
   timestamp: string;
 }
 
+export interface SkillMetadata {
+  author?: {
+    name: string;
+    email: string;
+    isVerified: boolean;
+  };
+  maintenance?: {
+    lastUpdated: string;
+    version?: string;
+  };
+  dependencies?: string[];
+}
+
 export interface SkillContext {
   raw: string;
   tools: string[];
   systemPrompt: string;
   examples: string[];
+  metadata?: SkillMetadata;
 }
 
 export interface BehavioralConfig {
