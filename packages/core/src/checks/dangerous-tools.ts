@@ -5,7 +5,7 @@ export class DangerousToolsCheck implements BaseCheck {
   name = 'Dangerous Tools Audit';
   weight = 1.0;
 
-  async run(context: SkillContext): Promise<CheckResult> {
+  async run(context: SkillContext, behavioral?: any): Promise<CheckResult> {
     const dangerous = ['run_shell_command', 'write_file', 'delete_file'];
     const found = context.tools.filter(t => dangerous.includes(t));
 

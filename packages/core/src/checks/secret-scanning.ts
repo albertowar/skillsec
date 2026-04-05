@@ -5,7 +5,7 @@ export class SecretScanningCheck implements BaseCheck {
   name = 'Secret Scanning Audit';
   weight = 1.0;
 
-  async run(context: SkillContext): Promise<CheckResult> {
+  async run(context: SkillContext, behavioral?: any): Promise<CheckResult> {
     const patterns = [
       /\bsk-[a-zA-Z0-9]{20,}\b/, // OpenAI
       /\bghp_[a-zA-Z0-9]{36}\b/, // GitHub

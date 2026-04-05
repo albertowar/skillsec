@@ -22,9 +22,16 @@ export interface SkillContext {
   examples: string[];
 }
 
+export interface BehavioralConfig {
+  apiKey?: string;
+  modelName?: string;
+  provider?: 'google' | 'openai' | 'anthropic' | 'custom';
+  baseUrl?: string;
+}
+
 export interface BaseCheck {
   id: string;
   name: string;
   weight: number;
-  run(context: SkillContext): Promise<CheckResult>;
+  run(context: SkillContext, behavioral?: any): Promise<CheckResult>;
 }

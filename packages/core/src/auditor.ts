@@ -1,16 +1,29 @@
-import { AuditReport, SkillContext, BaseCheck, CheckResult } from './types';
+import { AuditReport, SkillContext, BaseCheck, CheckResult, BehavioralConfig } from './types';
 import { DangerousToolsCheck } from './checks/dangerous-tools';
 import { SecretScanningCheck } from './checks/secret-scanning';
+import { BehavioralService } from './behavioral';
 import * as crypto from 'crypto';
 
 export class Auditor {
-  private checks: BaseCheck[] = [
-    new DangerousToolsCheck(),
-    new SecretScanningCheck()
-  ];
+  private behavioralService: BehavioralService;
+
+  constructor(
+    private checks: BaseCheck[] = [],
+    config: BehavioralConfig = {}
+  ) {
+    this.behavioralService = new BehavioralService(config);
+    if (this.checks.length === 0) {
+      this.checks = [
+        new DangerousToolsCheck(),
+        new SecretScanningCheck()
+      ];
+    }
+  }
 
   async audit(context: SkillContext): Promise<AuditReport> {
-    const outcomes = await Promise.allSettled(this.checks.map(c => c.run(context)));
+    const outcomes = await Promise.allSettled(
+      this.checks.map(c => c.run(context, this.behavioralService))
+    );
 
     const results: CheckResult[] = outcomes.map((outcome, index) => {
       const check = this.checks[index];
