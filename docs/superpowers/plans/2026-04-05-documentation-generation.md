@@ -2,134 +2,208 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Generate a contributor-focused `README.md` and an AI-focused `AGENTS.md` in the project root to align with the SkillAuditAI design.
+**Goal:** Create a comprehensive suite of developer and user documentation for SkillAuditAI.
 
-**Architecture:** Create two primary documentation files in the repository root. `README.md` targets human contributors with architecture and extension guides, while `AGENTS.md` provides architectural mandates and type references for AI agents.
+**Architecture:** A modular documentation structure in `docs/` containing usage guides, scoring interpretation, architecture overviews, and extension guides.
 
-**Tech Stack:** Markdown (GitHub-flavored).
+**Tech Stack:** Markdown.
 
 ---
 
-### Task 1: Generate README.md
+### Task 1: Initialize Docs Directory and Usage Guide
 
 **Files:**
-- Create: `README.md`
+- Create: `docs/usage.md`
 
-- [ ] **Step 1: Write README.md content**
+- [ ] **Step 1: Create `docs/usage.md` with CLI instructions**
 
 ```markdown
-# SkillAuditAI
+# CLI Usage Guide
 
-> **Security Auditor for AI Skills**  
-> Evaluates AI skills against the [agentskills.io](https://agentskills.io) specification to provide a unified "Safety Score" (0-10).
+SkillAuditAI provides a command-line interface to audit AI skills against security best practices.
 
-## 🏗 Architecture
+## Installation
 
-SkillAuditAI is built as a TypeScript monorepo to ensure the auditing engine remains portable and "edge-ready."
-
-- **`@skillauditai/core`**: The stateless engine. Handles parsing, check orchestration, and scoring.
-- **`@skillauditai/cli`**: The user-facing tool for file I/O and terminal rendering.
-
-### The Audit Pipeline
-1. **Parse**: Converts `SKILL.md` into a structured `SkillAST`.
-2. **Context**: (Optional) Enriches the audit with external metadata.
-3. **Check**: Executes a registry of `BaseCheck` implementations.
-4. **Score**: Aggregates check results into a weighted scorecard.
-5. **Report**: Generates output in Table, JSON, or SARIF formats.
-
-## 🛠 Getting Started
-
-### Prerequisites
-- Node.js 18+
-- npm
-
-### Installation
 ```bash
 npm install
 npm run build
 ```
 
-## 🧩 Extending SkillAuditAI
+## Running an Audit
 
-To add a new security check, implement the `BaseCheck` interface in `@skillauditai/core`:
-
-1. Define your check in `packages/core/src/checks/`.
-2. Assign a weight: `Critical (1.0)`, `High (0.8)`, `Medium (0.5)`, or `Low (0.3)`.
-3. Register the check in the `Auditor` engine.
-
-## 🧪 Development
-
-- **Test**: `npm test` (Uses Vitest)
-- **Build**: `npm run build`
-- **Lint**: `npm run lint`
-```
-
-- [ ] **Step 2: Verify file creation**
-
-Run: `ls -l README.md`
-Expected: File exists with the content above.
-
-- [ ] **Step 3: Commit**
+Audit a local `SKILL.md` file:
 
 ```bash
-git add README.md
-git commit -m "docs: add contributor-focused README.md"
+npx ts-node packages/cli/src/index.ts path/to/skill.md
 ```
 
-### Task 2: Generate AGENTS.md
+## Flags & Options
 
-**Files:**
-- Create: `AGENTS.md`
+| Flag | Description | Options |
+|------|-------------|---------|
+| `--format` | Output format | `table` (default), `json` |
+| `--api-key` | API key for behavioral simulations | String |
+| `--model` | LLM model name | e.g., `gemini-1.5-pro` |
+| `--provider` | LLM provider | `google`, `openai`, `anthropic`, `custom` |
+| `--base-url` | Custom API endpoint | URL string |
 
-- [ ] **Step 1: Write AGENTS.md content**
+## Environment Variables
 
-```markdown
-# Agent Instructions: SkillAuditAI
+You can set these in a `.env` file in the root directory:
 
-This file provides architectural mandates and type references for AI agents contributing to this repository.
-
-## ⚖️ Core Mandates
-
-1. **Stateless Core**: Everything in `packages/core` must be stateless and "edge-ready." No direct filesystem or network I/O. Use dependency injection or the `Context` object.
-2. **Type Safety**: No `any` types. No @ts-ignore. Use Zod for runtime validation where boundaries are crossed.
-3. **Spec Alignment**: All parsing and auditing logic must strictly follow the [agentskills.io](https://agentskills.io) specification.
-
-## 🔑 Key Symbols & Types
-
-- `SkillAST`: The unified AST generated from `SKILL.md`.
-- `BaseCheck`: Abstract class for all audit checks. Must implement `run(ast: SkillAST): Promise<CheckResult>`.
-- `AuditReport`: The final output structure containing the scorecard and findings.
-
-## 📊 Scoring Weights
-
-Consistency in scoring is critical. Use these weights for all `BaseCheck` implementations:
-- **Critical (1.0)**: Direct security vulnerabilities (e.g., hardcoded secrets, dangerous shell tools).
-- **High (0.8)**: Potential for misuse or prompt injection risks.
-- **Medium (0.5)**: Reputation, metadata, or maintenance issues.
-- **Low (0.3)**: Stylistic or minor best-practice deviations.
-
-## 🔄 Workflow Requirements
-
-- **TDD**: Every bug fix requires a reproduction test case. Every new check requires a `.spec.ts` file.
-- **Parser Logic**: The Markdown parser must target sections: `Tools`, `Instructions`, and `Examples`.
-- **Validation**: Run `npm test` before proposing any implementation.
+- `GOOGLE_API_KEY`
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
 ```
 
-- [ ] **Step 2: Verify file creation**
-
-Run: `ls -l AGENTS.md`
-Expected: File exists with the content above.
-
-- [ ] **Step 3: Commit**
+- [ ] **Step 2: Commit**
 
 ```bash
-git add AGENTS.md
-git commit -m "docs: add AI-focused AGENTS.md"
+git add docs/usage.md
+git commit -m "docs: add CLI usage guide"
 ```
 
 ---
 
-### Plan Self-Review
-1. **Spec Coverage:** Covers all sections defined in the documentation design spec.
-2. **Placeholder Scan:** None. Actual Markdown content provided.
-3. **Type Consistency:** Method signatures and weights match the core design spec.
+### Task 2: Create Interpretation Guide
+
+**Files:**
+- Create: `docs/interpreting-results.md`
+
+- [ ] **Step 1: Create `docs/interpreting-results.md` with scoring and risk details**
+
+```markdown
+# Interpreting Audit Results
+
+SkillAuditAI provides a Safety Score from 0 to 10. A higher score indicates a safer skill.
+
+## Scoring Logic
+
+The final score is a weighted average of all active checks. Weights are assigned based on the severity of the potential vulnerability:
+
+- **Critical (1.0)**: Direct threats to system integrity.
+- **High (0.8)**: Serious misconfigurations.
+- **Medium (0.5)**: Significant risks requiring review.
+- **Low (0.3)**: Minor best-practice violations.
+
+## Risk Level Definitions
+
+- **🔴 Critical**: Direct Remote Code Execution (RCE) or confirmed data exfiltration path.
+- **🟠 High**: Usage of dangerous tools without any safety delimiters or human-in-the-loop (HITL) constraints.
+- **🟡 Medium**: Potentially dangerous patterns that should be manually audited.
+- **🟢 Low**: Minor issues like missing delimiters but having safety phrases.
+- **⚪ Info**: Lack of metadata (author, maintenance date).
+
+## Audit Catalog
+
+| Check ID | Description |
+|----------|-------------|
+| `dangerous-tools` | Detects high-risk tools like `run_shell_command`. |
+| `tool-chaining` | Detects "Read -> Move" patterns (e.g., File Read to API Post). |
+| `prompt-injection` | Checks for structural delimiters and safety phrases. |
+| `exfiltration` | Scans for network sinks and tests robustness via LLM. |
+| `indirect-injection` | Audits trust boundaries for external content readers. |
+| `secret-scanning` | Searches for hardcoded API keys or secrets. |
+```
+
+- [ ] **Step 2: Commit**
+
+```bash
+git add docs/interpreting-results.md
+git commit -m "docs: add interpretation guide"
+```
+
+---
+
+### Task 3: Create Architecture and Extension Guides
+
+**Files:**
+- Create: `docs/architecture.md`
+- Create: `docs/extending.md`
+
+- [ ] **Step 1: Create `docs/architecture.md`**
+
+```markdown
+# Architecture Overview
+
+SkillAuditAI is designed as a modular auditing engine.
+
+## The Pipeline
+
+1. **Parse**: `parser.ts` converts a Markdown skill into a `SkillContext`.
+2. **Context**: Enrichment with Git metadata (author, maintenance).
+3. **Check**: The `Auditor` executes a registry of `BaseCheck` implementations.
+4. **Behavioral**: (Optional) `BehavioralService` performs live LLM "Red Teaming".
+5. **Report**: Results are aggregated and formatted by the CLI.
+
+## Packages
+
+- `@skillauditai/core`: The stateless auditing engine and check logic.
+- `@skillauditai/cli`: The terminal wrapper for local file I/O.
+```
+
+- [ ] **Step 2: Create `docs/extending.md`**
+
+```markdown
+# Extending SkillAuditAI
+
+## Adding a New Check
+
+1. Create a new file in `packages/core/src/checks/`.
+2. Implement the `BaseCheck` interface:
+
+```typescript
+import { BaseCheck, SkillContext, CheckResult } from '../types';
+
+export class MyNewCheck implements BaseCheck {
+  id = 'my-check';
+  name = 'My Security Audit';
+  weight = 0.5;
+
+  async run(context: SkillContext): Promise<CheckResult> {
+    // Audit logic here
+  }
+}
+```
+
+3. Register the check in `packages/core/src/auditor.ts`.
+4. Add tests in `packages/core/tests/checks/`.
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add docs/architecture.md docs/extending.md
+git commit -m "docs: add architecture and extension guides"
+```
+
+---
+
+### Task 4: Update Root README
+
+**Files:**
+- Modify: `README.md`
+
+- [ ] **Step 1: Link documentation in root README**
+
+```markdown
+# SkillAuditAI
+
+... existing content ...
+
+## 📖 Documentation
+
+- [CLI Usage Guide](docs/usage.md)
+- [Interpreting Results](docs/interpreting-results.md)
+- [Architecture Overview](docs/architecture.md)
+- [Extending the Auditor](docs/extending.md)
+
+... rest of content ...
+```
+
+- [ ] **Step 2: Commit**
+
+```bash
+git add README.md
+git commit -m "docs: link modular documentation in README"
+```

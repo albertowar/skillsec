@@ -1,66 +1,54 @@
-# Design Spec: Documentation (README.md & AGENTS.md)
+# Design Spec: Developer & User Documentation Structure
 
-**Date:** 2026-04-05  
-**Status:** Draft  
-**Target:** Project Root Documentation  
+**Date:** 2026-04-05
+**Status:** Approved
+**Target:** Implementation of comprehensive developer and user documentation for SkillAuditAI.
 
 ---
 
 ## 1. Overview
-This spec defines the structure and content for the primary repository documentation: `README.md` (targeted at contributors) and `AGENTS.md` (targeted at AI coding agents).
+This design covers the creation of a modular documentation suite for SkillAuditAI, providing both user-facing guides for auditing AI skills and developer-facing documentation for contributing to the core engine.
 
-## 2. README.md (Contributor-Focused)
+## 2. Documentation Structure
 
-### 2.1 Goals
-- Provide a clear entry point for developers.
-- Explain the monorepo structure and the relationship between `@skillauditai/core` and `@skillauditai/cli`.
-- Document the extension mechanism for adding new security checks.
+All documentation will be located in the `docs/` directory, following a modular approach to separate usage, interpretation, and architecture.
 
-### 2.2 Content Structure
-1.  **Header:** Project name, brief description (Security Auditor for AI Skills), and link to [agentskills.io](https://agentskills.io).
-2.  **Architecture:**
-    - High-level diagram (text-based) of the pipeline: Parse → Context → Check → Score → Report.
-    - Package breakdown: `packages/core` (stateless engine) vs. `packages/cli` (I/O & rendering).
-3.  **Getting Started:**
-    - Prerequisites (Node.js, npm).
-    - Installation and build instructions (`npm install && npm run build`).
-4.  **Extending SkillAuditAI:**
-    - Walkthrough of the `BaseCheck` interface.
-    - How to define check metadata (ID, Description, Weight).
-    - Registering a check in the core engine.
-5.  **Development:**
-    - Testing with Vitest.
-    - Linting and formatting rules.
-    - Contribution guidelines (briefly).
+### 2.1 User Documentation (`docs/usage.md`)
+- **CLI Commands:** Instructions for running the auditor via `npx` or locally.
+- **Flags & Options:** Detailed table of all supported flags:
+    - `--format`: `table` (default), `json`.
+    - `--api-key`: API key for behavioral simulations.
+    - `--model`: Model name (e.g., `gemini-1.5-pro`).
+    - `--provider`: `google`, `openai`, `anthropic`, `custom`.
+    - `--base-url`: Custom endpoint for local or proxy models.
+- **Environment Setup:** Recommended `.env` configuration for persistent API keys.
 
-## 3. AGENTS.md (AI-Focused)
+### 2.2 Interpretation Guide (`docs/interpreting-results.md`)
+- **Scoring Logic:** Explanation of how the final score (0-10) is calculated using weighted averages.
+- **Risk Level Definitions:**
+    - `Critical`: Direct code execution (RCE) or confirmed data exfiltration.
+    - `High`: Dangerous tools present without safety constraints or human-in-the-loop (HITL) instructions.
+    - `Medium`: Significant vulnerabilities that require manual review.
+    - `Low`: Minimal risks; follow best practices for delimiters and safety phrases.
+    - `Info`: Metadata-only findings (maintenance, author verification).
+- **Check Catalog:** A glossary of all 10 active checks and their specific "Fail" criteria.
 
-### 3.1 Goals
-- Optimize the developer experience for AI agents working on the codebase.
-- Enforce architectural constraints and scoring consistency.
-- Provide a quick reference for core types and symbols.
+### 2.3 Architecture Overview (`docs/architecture.md`)
+- **The Pipeline:** Diagram and description of the `Parse -> Context -> Check -> Score -> Report` flow.
+- **Package Relationships:** Separation of concerns between `@skillauditai/core` (stateless engine) and `@skillauditai/cli` (I/O wrapper).
+- **Behavioral Service:** How the optional LLM-powered "Red Teaming" layer is injected into the audit process.
 
-### 3.2 Content Structure
-1.  **Core Mandates:**
-    - **Stateless Core:** `packages/core` must remain edge-ready (no filesystem/network I/O; use dependency injection or context).
-    - **Type Safety:** Strict TypeScript usage; no `any` or suppressed warnings.
-2.  **Key Symbols:**
-    - `SkillAST`: The structured representation of an audited skill.
-    - `BaseCheck`: The abstract class for all audit logic.
-    - `AuditReport`: The final output structure.
-3.  **Scoring Logic:**
-    - Definition of weights: `Critical (1.0)`, `High (0.8)`, `Medium (0.5)`, `Low (0.3)`.
-    - Rules for score aggregation.
-4.  **Workflow Requirements:**
-    - Every bug must have a reproduction test case.
-    - Every new check must have a corresponding `.spec.ts` file.
-    - Every implementation must align with the `agentskills.io` specification.
-5.  **Parsing Rules:**
-    - Specific regex or parser instructions for the Markdown-to-AST conversion.
+### 2.4 Extension Guide (`docs/extending.md`)
+- **Implementing `BaseCheck`:** Step-by-step instructions and a boilerplate example for a new check.
+- **Using `SkillContext`:** Documentation for available properties (`tools`, `systemPrompt`, `examples`, `metadata`).
+- **Testing Requirements:** Guidelines for using `vitest` to verify check logic with mock contexts.
+- **Registration:** How to add the new check to the `Auditor` constructor.
 
 ---
 
-## 4. Technical Constraints
-- Use standard Markdown (GitHub-flavored).
-- Keep `AGENTS.md` concise and machine-parsable.
-- Ensure all links (e.g., to packages) are relative and correct.
+## 3. Implementation Plan
+
+1.  Create the `docs/` directory (if not exists) and populate with the four Markdown files.
+2.  Update `README.md` at the project root to link to the new documentation.
+3.  Ensure all code examples in the documentation are accurate and reflect the current state of the repository.
+4.  Commit the documentation to the `main` branch.
