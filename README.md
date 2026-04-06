@@ -51,3 +51,12 @@ To add a new security check, implement the `Check` interface in `internal/checks
 
 - **Test**: `go test ./...`
 - **Build**: `go build -o skillsec ./cmd/skillsec`
+
+## 📄 License
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.
+
+- **Non-Commercial**: You may not use this material for commercial purposes.
+- **Attribution**: You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+
+See the [LICENSE](LICENSE) file for the full text.
