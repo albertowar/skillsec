@@ -13,13 +13,21 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+var Version = "dev"
+
 func main() {
+	versionFlag := flag.Bool("version", false, "Print version and exit")
 	format := flag.String("format", "table", "Output format (table|json)")
 	apiKey := flag.String("api-key", os.Getenv("SKILLAUDIT_API_KEY"), "LLM API Key")
 	model := flag.String("model", "gemini-1.5-pro", "LLM Model Name")
 	provider := flag.String("provider", "google", "LLM Provider (google|openai)")
 	baseURL := flag.String("base-url", "", "Custom LLM base URL")
 	flag.Parse()
+
+	if *versionFlag {
+		fmt.Printf("skillaudit version %s\n", Version)
+		os.Exit(0)
+	}
 
 	filePath := flag.Arg(0)
 	if filePath == "" {
