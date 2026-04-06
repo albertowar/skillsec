@@ -34,6 +34,7 @@ func main() {
 	}
 
 	skillCtx := engine.ParseSkill(string(content))
+	skillCtx.Metadata = engine.GetGitMetadata(filePath)
 	bService, _ := behavioral.NewService(*provider, *apiKey, *model, *baseURL)
 	auditor := engine.NewAuditor(bService)
 	
