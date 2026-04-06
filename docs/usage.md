@@ -1,13 +1,13 @@
 # CLI Usage Guide
 
-SkillAuditAI provides a command-line interface to audit AI skills against security best practices.
+SkillSec provides a command-line interface to audit AI skills against security best practices.
 
 ## Installation
 
 Building from source requires Go 1.21+:
 
 ```bash
-go build -o skillaudit ./cmd/skillaudit
+go build -o skillsec ./cmd/skillsec
 ```
 
 ## Running an Audit
@@ -15,7 +15,7 @@ go build -o skillaudit ./cmd/skillaudit
 Audit a local `SKILL.md` file:
 
 ```bash
-./skillaudit path/to/skill.md
+./skillsec path/to/skill.md
 ```
 
 ## Flags & Options
@@ -32,4 +32,4 @@ Audit a local `SKILL.md` file:
 
 You can set these in your environment or a `.env` file:
 
-- `SKILLAUDIT_API_KEY` (Can be used instead of `-api-key`)
+- `SKILLSEC_API_KEY` (Can be used instead of `-api-key`)

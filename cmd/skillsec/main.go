@@ -20,7 +20,7 @@ var Version = "dev"
 func main() {
 	versionFlag := flag.Bool("version", false, "Print version and exit")
 	format := flag.String("format", "table", "Output format (table|json)")
-	apiKey := flag.String("api-key", os.Getenv("SKILLAUDIT_API_KEY"), "LLM API Key")
+	apiKey := flag.String("api-key", os.Getenv("SKILLSEC_API_KEY"), "LLM API Key")
 	model := flag.String("model", "gemini-1.5-pro", "LLM Model Name")
 	provider := flag.String("provider", "google", "LLM Provider (google|openai)")
 	baseURL := flag.String("base-url", "", "Custom LLM base URL")
@@ -64,7 +64,7 @@ func main() {
 
 func renderTable(report api.AuditReport, skillCtx api.SkillContext) {
 	p := provider.Get(skillCtx.Provider)
-	color.New(color.Bold).Printf("\nSkillAuditAI Report (%s) - Score: %.1f/10\n\n", p.Name(), report.FinalScore)
+	color.New(color.Bold).Printf("\nSkillSec Report (%s) - Score: %.1f/10\n\n", p.Name(), report.FinalScore)
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Level", "Check", "Score", "Justification"})

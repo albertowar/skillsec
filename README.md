@@ -1,11 +1,11 @@
-# SkillAuditAI
+# SkillSec
 
 > **Security Auditor for AI Skills**  
 > Evaluates AI skills against the [agentskills.io](https://agentskills.io) specification to provide a unified "Safety Score" (0-10).
 
 ## 🏗 Architecture
 
-SkillAuditAI is built in Go for high performance and easy distribution as a single binary. It uses concurrent check execution and leverages `langchaingo` for behavioral analysis.
+SkillSec is built in Go for high performance and easy distribution as a single binary. It uses concurrent check execution and leverages `langchaingo` for behavioral analysis.
 
 - **Auditor Engine**: Orchestrates security checks and calculates weighted scores.
 - **Security Checks**: Modular implementations for static and behavioral analysis.
@@ -25,12 +25,12 @@ SkillAuditAI is built in Go for high performance and easy distribution as a sing
 
 ### Installation
 ```bash
-go build -o skillaudit ./cmd/skillaudit
+go build -o skillsec ./cmd/skillsec
 ```
 
 ### Basic Usage
 ```bash
-./skillaudit path/to/skill.md --api-key YOUR_KEY --provider google
+./skillsec path/to/skill.md --api-key YOUR_KEY --provider google
 ```
 
 ## 📖 Documentation
@@ -40,7 +40,7 @@ go build -o skillaudit ./cmd/skillaudit
 - [Architecture Overview](docs/architecture.md)
 - [Extending the Auditor](docs/extending.md)
 
-## 🧩 Extending SkillAuditAI
+## 🧩 Extending SkillSec
 
 To add a new security check, implement the `Check` interface in `internal/checks`:
 
@@ -50,4 +50,4 @@ To add a new security check, implement the `Check` interface in `internal/checks
 ## 🧪 Development
 
 - **Test**: `go test ./...`
-- **Build**: `go build -o skillaudit ./cmd/skillaudit`
+- **Build**: `go build -o skillsec ./cmd/skillsec`
