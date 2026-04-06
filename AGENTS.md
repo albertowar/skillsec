@@ -4,8 +4,8 @@ This file provides architectural mandates and type references for AI agents cont
 
 ## ⚖️ Core Mandates
 
-1. **Stateless Core**: Everything in `packages/core` must be stateless and "edge-ready." No direct filesystem or network I/O. Use dependency injection or the `Context` object.
-2. **Type Safety**: No `any` types. No @ts-ignore. Use Zod for runtime validation where boundaries are crossed.
+1. **Stateless Core**: Everything in `internal` must be stateless and "edge-ready." No direct filesystem or network I/O. Use dependency injection or the `Context` object.
+2. **Type Safety**: No `any` types. No @ts-ignore. Use Go types for runtime validation where boundaries are crossed.
 3. **Spec Alignment**: All parsing and auditing logic must strictly follow the [agentskills.io](https://agentskills.io) specification.
 
 ## 🔑 Key Symbols & Types
@@ -24,6 +24,6 @@ Consistency in scoring is critical. Use these weights for all `BaseCheck` implem
 
 ## 🔄 Workflow Requirements
 
-- **TDD**: Every bug fix requires a reproduction test case. Every new check requires a `.spec.ts` file.
+- **TDD**: Every bug fix requires a reproduction test case. Every new check requires a `_test.go` file.
 - **Parser Logic**: The Markdown parser must target sections: `Tools`, `Instructions`, and `Examples`.
-- **Validation**: Run `npm test` before proposing any implementation.
+- **Validation**: Run `go test` before proposing any implementation.
