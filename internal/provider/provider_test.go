@@ -2,7 +2,7 @@ package provider_test
 
 import (
 	"testing"
-	"github.com/albertowar/skillauditai/internal/provider"
+	"github.com/albertowar/skillsec/internal/provider"
 )
 
 type MockProvider struct{}

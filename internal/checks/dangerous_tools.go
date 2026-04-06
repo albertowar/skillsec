@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"github.com/albertowar/skillauditai/pkg/api"
-	"github.com/albertowar/skillauditai/internal/behavioral"
-	"github.com/albertowar/skillauditai/internal/provider"
+	"github.com/albertowar/skillsec/pkg/api"
+	"github.com/albertowar/skillsec/internal/behavioral"
+	"github.com/albertowar/skillsec/internal/provider"
 )
 
 type DangerousToolsCheck struct{}

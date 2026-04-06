@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func TestSecretScanningCheck(t *testing.T) {

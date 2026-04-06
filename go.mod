@@ -1,4 +1,4 @@
-module github.com/albertowar/skillauditai
+module github.com/albertowar/skillsec
 
 go 1.25.1
 

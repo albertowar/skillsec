@@ -3,7 +3,7 @@ package checks
 import (
 	"context"
 	"testing"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func TestDangerousToolsCheck(t *testing.T) {

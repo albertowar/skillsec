@@ -5,7 +5,7 @@ import (
 	"strings"
 	"strconv"
 	"time"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func GetGitMetadata(filePath string) *api.SkillMetadata {

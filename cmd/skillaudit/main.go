@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/albertowar/skillauditai/internal/behavioral"
-	"github.com/albertowar/skillauditai/internal/engine"
-	"github.com/albertowar/skillauditai/internal/provider"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/internal/behavioral"
+	"github.com/albertowar/skillsec/internal/engine"
+	"github.com/albertowar/skillsec/internal/provider"
+	"github.com/albertowar/skillsec/pkg/api"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 )

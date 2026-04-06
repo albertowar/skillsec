@@ -4,8 +4,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/albertowar/skillauditai/internal/provider"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/internal/provider"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func ParseSkill(content string) api.SkillContext {
