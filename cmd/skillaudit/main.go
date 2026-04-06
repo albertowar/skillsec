@@ -6,8 +6,10 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/albertowar/skillauditai/internal/engine"
+
 	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillauditai/internal/engine"
+	"github.com/albertowar/skillauditai/internal/provider"
 	"github.com/albertowar/skillauditai/pkg/api"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
@@ -45,7 +47,7 @@ func main() {
 	skillCtx.Metadata = engine.GetGitMetadata(filePath)
 	bService, _ := behavioral.NewService(*provider, *apiKey, *model, *baseURL)
 	auditor := engine.NewAuditor(bService)
-	
+
 	report, err := auditor.Audit(context.Background(), skillCtx)
 	if err != nil {
 		fmt.Printf("Audit failed: %v\n", err)
@@ -56,12 +58,13 @@ func main() {
 		data, _ := json.MarshalIndent(report, "", "  ")
 		fmt.Println(string(data))
 	} else {
-		renderTable(report)
+		renderTable(report, skillCtx)
 	}
 }
 
-func renderTable(report api.AuditReport) {
-	color.New(color.Bold).Printf("\nSkillAuditAI Report - Score: %.1f/10\n\n", report.FinalScore)
+func renderTable(report api.AuditReport, skillCtx api.SkillContext) {
+	p := provider.Get(skillCtx.Provider)
+	color.New(color.Bold).Printf("\nSkillAuditAI Report (%s) - Score: %.1f/10\n\n", p.Name(), report.FinalScore)
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Level", "Check", "Score", "Justification"})
