@@ -43,6 +43,7 @@ type SkillMetadata struct {
 type SkillContext struct {
 	Raw          string         `json:"raw"`
 	Tools        []string       `json:"tools"`
+	Provider     string         `json:"provider"`
 	SystemPrompt string         `json:"systemPrompt"`
 	Examples     []string       `json:"examples"`
 	Metadata     *SkillMetadata `json:"metadata,omitempty"`
