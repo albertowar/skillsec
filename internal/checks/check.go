@@ -15,21 +15,9 @@ type Check interface {
 	Run(ctx context.Context, skill api.SkillContext, b *behavioral.Service) (api.CheckResult, error)
 }
 
-// DangerousToolsCheck is a placeholder for the dangerous tools check.
-// It will be fully implemented in a later task.
-type DangerousToolsCheck struct{}
-
-func (d *DangerousToolsCheck) ID() string      { return "dangerous-tools" }
-func (d *DangerousToolsCheck) Name() string    { return "Dangerous Tools Check" }
-func (d *DangerousToolsCheck) Weight() float64 { return 1.0 }
-func (d *DangerousToolsCheck) Run(ctx context.Context, skill api.SkillContext, b *behavioral.Service) (api.CheckResult, error) {
-	return api.CheckResult{}, nil
-}
-
 // AllChecks returns all registered security checks.
 func AllChecks() []Check {
 	return []Check{
 		&DangerousToolsCheck{},
-		// ... more will be added
 	}
 }
