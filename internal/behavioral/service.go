@@ -42,7 +42,7 @@ func (s *Service) Test(ctx context.Context, systemPrompt, userMessage string) (s
 	if err != nil {
 		return "", err
 	}
-	if len(resp.Choices) == 0 {
+	if resp == nil || len(resp.Choices) == 0 {
 		return "", nil
 	}
 	return resp.Choices[0].Content, nil
