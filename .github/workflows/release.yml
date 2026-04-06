@@ -78,6 +78,8 @@ jobs:
     name: Build and Release
     needs: calculate-version
     runs-on: ubuntu-latest
+    env:
+      NEXT_VERSION: ${{ needs.calculate-version.outputs.next_version }}
     strategy:
       matrix:
         include:
@@ -104,11 +106,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.21'
+
+      - name: Tag version
+        if: matrix.goos == 'linux' && matrix.goarch == 'amd64' # Only run once
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag $NEXT_VERSION
+          git push origin $NEXT_VERSION
+
+      - name: Wait for tag propagation
+        run: sleep 5 # Small buffer for eventual consistency
 
       - name: Build
         env:
@@ -119,7 +134,7 @@ jobs:
           if [ "${{ matrix.goos }}" = "windows" ]; then
             OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
           fi
-          go build -ldflags "-X main.Version=${{ needs.calculate-version.outputs.next_version }}" -o $OUTPUT_NAME ./cmd/skillaudit
+          go build -ldflags "-X main.Version=$NEXT_VERSION" -o $OUTPUT_NAME ./cmd/skillaudit
 
       - name: Generate Checksums
         run: sha256sum skillaudit-* > checksums.txt
@@ -127,7 +142,7 @@ jobs:
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.calculate-version.outputs.next_version }}
+          tag_name: ${{ env.NEXT_VERSION }}
           files: |
             skillaudit-*
             checksums.txt
