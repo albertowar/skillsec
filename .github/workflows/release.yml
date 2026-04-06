@@ -37,16 +37,25 @@ jobs:
     strategy:
       matrix:
         include:
+          # Linux
           - goos: linux
             goarch: amd64
           - goos: linux
             goarch: arm64
+          - goos: linux
+            goarch: 386
+          # MacOS
           - goos: darwin
             goarch: amd64
           - goos: darwin
             goarch: arm64
+          # Windows
           - goos: windows
             goarch: amd64
+          - goos: windows
+            goarch: arm64
+          - goos: windows
+            goarch: 386
 
     steps:
       - name: Checkout code
