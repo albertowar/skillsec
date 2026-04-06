@@ -15,6 +15,12 @@ func (c *DependencyAuditCheck) ID() string      { return "dependency-audit" }
 func (c *DependencyAuditCheck) Name() string    { return "Dependency Audit" }
 func (c *DependencyAuditCheck) Weight() float64 { return 0.5 }
 
+var dependencyPatterns = []*regexp.Regexp{
+	regexp.MustCompile(`import\s+['"]?[\w-]+['"]?`),
+	regexp.MustCompile(`require\s*\(['"]?[\w-]+['"]?\)`),
+	regexp.MustCompile(`\[.*?\]\(.*?\.md\)`), // Skill links
+}
+
 func (c *DependencyAuditCheck) Run(ctx context.Context, skill api.SkillContext, b *behavioral.Service) (api.CheckResult, error) {
 	allContent := strings.Join([]string{
 		skill.SystemPrompt,
@@ -40,14 +46,8 @@ func (c *DependencyAuditCheck) Run(ctx context.Context, skill api.SkillContext, 
 		}, nil
 	}
 
-	imports := []string{
-		`import\s+['"]?[\w-]+['"]?`,
-		`require\s*\(['"]?[\w-]+['"]?\)`,
-		`\[.*?\]\(.*?\.md\)`, // Skill links
-	}
 	foundImports := false
-	for _, p := range imports {
-		re := regexp.MustCompile(p)
+	for _, re := range dependencyPatterns {
 		if re.MatchString(allContent) {
 			foundImports = true
 			break
