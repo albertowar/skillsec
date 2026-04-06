@@ -9,18 +9,21 @@ import (
 )
 
 func GetGitMetadata(filePath string) *api.SkillMetadata {
-	cmd := exec.Command("git", "log", "-1", "--format=%an|%ae|%at|%G?", "--", filePath)
+	cmd := exec.Command("git", "log", "-1", "--format=%an\x1f%ae\x1f%at\x1f%G?", "--", filePath)
 	out, err := cmd.Output()
 	if err != nil || len(out) == 0 {
 		return nil
 	}
 
-	parts := strings.Split(strings.TrimSpace(string(out)), "|")
+	parts := strings.Split(strings.TrimSpace(string(out)), "\x1f")
 	if len(parts) < 4 {
 		return nil
 	}
 
-	timestamp, _ := strconv.ParseInt(parts[2], 10, 64)
+	timestamp, err := strconv.ParseInt(parts[2], 10, 64)
+	if err != nil {
+		return nil
+	}
 	
 	return &api.SkillMetadata{
 		Author: &struct {

@@ -23,5 +23,10 @@ func AllChecks() []Check {
 		&DependencyAuditCheck{},
 		&VerifiedAuthorCheck{},
 		&MaintenanceCheck{},
+		&PromptInjectionCheck{},
+		&ExfiltrationCheck{},
+		&IndirectInjectionCheck{},
+		&LeastPrivilegeCheck{},
+		&ToolChainingCheck{},
 	}
 }
