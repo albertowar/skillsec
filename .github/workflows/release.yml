@@ -3,10 +3,15 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      tag_name:
-        description: 'Tag name for the release (e.g., v1.0.0)'
+      increment:
+        description: 'Version increment'
         required: true
-        default: 'v0.1.0'
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 permissions:
   contents: write
@@ -30,9 +35,48 @@ jobs:
       - name: Vet
         run: go vet ./...
 
+  calculate-version:
+    name: Calculate Next Version
+    needs: checks
+    runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.bump.outputs.next_version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag and bump
+        id: bump
+        run: |
+          # Get latest tag, default to v0.0.0 if none found
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          VERSION=${LATEST_TAG#v}
+          
+          # Parse version components
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          
+          INCREMENT="${{ github.event.inputs.increment }}"
+          
+          if [ "$INCREMENT" == "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$INCREMENT" == "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+          
+          NEXT_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "Calculated next version: $NEXT_VERSION"
+
   release:
     name: Build and Release
-    needs: checks
+    needs: calculate-version
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -75,7 +119,7 @@ jobs:
           if [ "${{ matrix.goos }}" = "windows" ]; then
             OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
           fi
-          go build -ldflags "-X main.Version=${{ github.event.inputs.tag_name }}" -o $OUTPUT_NAME ./cmd/skillaudit
+          go build -ldflags "-X main.Version=${{ needs.calculate-version.outputs.next_version }}" -o $OUTPUT_NAME ./cmd/skillaudit
 
       - name: Generate Checksums
         run: sha256sum skillaudit-* > checksums.txt
@@ -83,7 +127,7 @@ jobs:
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag_name }}
+          tag_name: ${{ needs.calculate-version.outputs.next_version }}
           files: |
             skillaudit-*
             checksums.txt
