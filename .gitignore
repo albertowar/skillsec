@@ -1,5 +1,21 @@
-node_modules/
-dist/
-*.log
-package-lock.json
+# Binaries
+skillaudit
+skillaudit.exe
+
+# Go
+vendor/
+*.test
+*.out
+*.prof
+
+# Workspace
 .worktrees/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

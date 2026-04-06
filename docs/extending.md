@@ -2,22 +2,35 @@
 
 ## Adding a New Check
 
-1. Create a new file in `packages/core/src/checks/`.
-2. Implement the `BaseCheck` interface:
+1. Create a new file in `internal/checks/`.
+2. Implement the `Check` interface:
 
-```typescript
-import { BaseCheck, SkillContext, CheckResult } from '../types';
+```go
+package checks
 
-export class MyNewCheck implements BaseCheck {
-  id = 'my-check';
-  name = 'My Security Audit';
-  weight = 0.5;
+import (
+	"context"
+	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillauditai/internal/behavioral"
+)
 
-  async run(context: SkillContext): Promise<CheckResult> {
-    // Audit logic here
-  }
+type MyNewCheck struct{}
+
+func (c *MyNewCheck) ID() string      { return "my-check" }
+func (c *MyNewCheck) Name() string    { return "My Security Audit" }
+func (c *MyNewCheck) Weight() float64 { return 0.5 }
+
+func (c *MyNewCheck) Run(ctx context.Context, skill api.SkillContext, b *behavioral.Service) (api.CheckResult, error) {
+	// Audit logic here
+    return api.CheckResult{
+        ID:            c.ID(),
+        Name:          c.Name(),
+        Score:         10,
+        Level:         api.Low,
+        Justification: "No issues found.",
+    }, nil
 }
 ```
 
-3. Register the check in `packages/core/src/auditor.ts`.
-4. Add tests in `packages/core/tests/checks/`.
+3. Register the check in `internal/checks/check.go` within the `AllChecks()` function.
+4. Add tests in a corresponding `_test.go` file in the same directory.

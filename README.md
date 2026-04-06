@@ -5,28 +5,32 @@
 
 ## 🏗 Architecture
 
-SkillAuditAI is built as a TypeScript monorepo to ensure the auditing engine remains portable and "edge-ready."
+SkillAuditAI is built in Go for high performance and easy distribution as a single binary. It uses concurrent check execution and leverages `langchaingo` for behavioral analysis.
 
-- **`@skillauditai/core`**: The stateless engine. Handles parsing, check orchestration, and scoring.
-- **`@skillauditai/cli`**: The user-facing tool for file I/O and terminal rendering.
+- **Auditor Engine**: Orchestrates security checks and calculates weighted scores.
+- **Security Checks**: Modular implementations for static and behavioral analysis.
+- **Behavioral Service**: LLM-agnostic testing layer powered by `langchaingo`.
 
 ### The Audit Pipeline
-1. **Parse**: Converts `SKILL.md` into a structured `SkillAST`.
-2. **Context**: (Optional) Enriches the audit with external metadata.
-3. **Check**: Executes a registry of `BaseCheck` implementations.
+1. **Parse**: Converts `SKILL.md` into a structured context.
+2. **Context**: Enriches the audit with Git metadata (author, maintenance).
+3. **Check**: Executes a registry of security checks concurrently.
 4. **Score**: Aggregates check results into a weighted scorecard.
-5. **Report**: Generates output in Table, JSON, or SARIF formats.
+5. **Report**: Generates output in Table or JSON formats.
 
 ## 🛠 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- npm
+- Go 1.21+
 
 ### Installation
 ```bash
-npm install
-npm run build
+go build -o skillaudit ./cmd/skillaudit
+```
+
+### Basic Usage
+```bash
+./skillaudit path/to/skill.md --api-key YOUR_KEY --provider google
 ```
 
 ## 📖 Documentation
@@ -38,14 +42,12 @@ npm run build
 
 ## 🧩 Extending SkillAuditAI
 
-To add a new security check, implement the `BaseCheck` interface in `@skillauditai/core`:
+To add a new security check, implement the `Check` interface in `internal/checks`:
 
-1. Define your check in `packages/core/src/checks/`.
-2. Assign a weight: `Critical (1.0)`, `High (0.8)`, `Medium (0.5)`, or `Low (0.3)`.
-3. Register the check in the `Auditor` engine.
+1. Define your check in `internal/checks/your_check.go`.
+2. Register the check in the `AllChecks()` function in `internal/checks/check.go`.
 
 ## 🧪 Development
 
-- **Test**: `npm test` (Uses Vitest)
-- **Build**: `npm run build`
-- **Lint**: `npm run lint`
+- **Test**: `go test ./...`
+- **Build**: `go build -o skillaudit ./cmd/skillaudit`

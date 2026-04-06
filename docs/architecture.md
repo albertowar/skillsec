@@ -1,16 +1,18 @@
 # Architecture Overview
 
-SkillAuditAI is designed as a modular auditing engine.
+SkillAuditAI is designed as a modular auditing engine implemented in Go.
 
 ## The Pipeline
 
-1. **Parse**: `parser.ts` converts a Markdown skill into a `SkillContext`.
-2. **Context**: Enrichment with Git metadata (author, maintenance).
-3. **Check**: The `Auditor` executes a registry of `BaseCheck` implementations.
-4. **Behavioral**: (Optional) `BehavioralService` performs live LLM "Red Teaming".
-5. **Report**: Results are aggregated and formatted by the CLI.
+1. **Parse**: `internal/engine/parser.go` converts a Markdown skill into a `SkillContext`.
+2. **Context**: Enrichment with Git metadata (author, maintenance) in `internal/engine/git.go`.
+3. **Check**: The `Auditor` executes a registry of `Check` implementations concurrently.
+4. **Behavioral**: `internal/behavioral/service.go` performs live LLM "Red Teaming" using `langchaingo`.
+5. **Report**: Results are aggregated and formatted by the CLI in `cmd/skillaudit/main.go`.
 
-## Packages
+## Key Packages
 
-- `@skillauditai/core`: The stateless auditing engine and check logic.
-- `@skillauditai/cli`: The terminal wrapper for local file I/O.
+- `pkg/api`: Public types for audit reports and results.
+- `internal/engine`: Core logic for parsing, Git enrichment, and audit orchestration.
+- `internal/checks`: Modular implementations of individual security checks.
+- `internal/behavioral`: LLM abstraction layer using `langchaingo`.
