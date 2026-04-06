@@ -1,15 +1,38 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release (e.g., v1.0.0)'
+        required: true
+        default: 'v0.1.0'
 
 permissions:
   contents: write
 
 jobs:
+  checks:
+    name: Run Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Vet
+        run: go vet ./...
+
   release:
+    name: Build and Release
+    needs: checks
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,10 +62,6 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          BINARY_NAME=skillaudit
-          if [ "${{ matrix.goos }}" = "windows" ]; then
-            BINARY_NAME=skillaudit.exe
-          fi
           OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}
           if [ "${{ matrix.goos }}" = "windows" ]; then
             OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
@@ -51,6 +70,6 @@ jobs:
 
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ github.event.inputs.tag_name }}
           files: skillaudit-*
