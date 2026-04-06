@@ -75,10 +75,34 @@ jobs:
           if [ "${{ matrix.goos }}" = "windows" ]; then
             OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
           fi
-          go build -o $OUTPUT_NAME ./cmd/skillaudit
+          go build -ldflags "-X main.Version=${{ github.event.inputs.tag_name }}" -o $OUTPUT_NAME ./cmd/skillaudit
+
+      - name: Generate Checksums
+        run: sha256sum skillaudit-* > checksums.txt
 
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag_name }}
-          files: skillaudit-*
+          files: |
+            skillaudit-*
+            checksums.txt
+
+  deploy-docs:
+    name: Deploy Documentation
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs
+        run: pip install mkdocs-material
+
+      - name: Build and Deploy
+        run: mkdocs gh-deploy --force
