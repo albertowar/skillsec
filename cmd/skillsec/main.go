@@ -27,13 +27,13 @@ func main() {
 	flag.Parse()
 
 	if *versionFlag {
-		fmt.Printf("skillaudit version %s\n", Version)
+		fmt.Printf("skillsec version %s\n", Version)
 		os.Exit(0)
 	}
 
 	filePath := flag.Arg(0)
 	if filePath == "" {
-		fmt.Println("Usage: skillaudit <skill.md> [flags]")
+		fmt.Println("Usage: skillsec <skill.md> [flags]")
 		os.Exit(1)
 	}
 
