@@ -52,3 +52,27 @@ func TestDangerousToolsCheck(t *testing.T) {
 		})
 	}
 }
+
+func TestDangerousToolsCheck_Run_OpenAI(t *testing.T) {
+	check := &DangerousToolsCheck{}
+	skill := api.SkillContext{
+		Provider: "openai",
+		Tools:    []string{"code_interpreter"},
+	}
+	res, _ := check.Run(context.Background(), skill, nil)
+	if res.Level != api.Critical {
+		t.Errorf("expected Critical, got %v", res.Level)
+	}
+}
+
+func TestDangerousToolsCheck_Run_Anthropic(t *testing.T) {
+	check := &DangerousToolsCheck{}
+	skill := api.SkillContext{
+		Provider: "anthropic",
+		Tools:    []string{"computer"},
+	}
+	res, _ := check.Run(context.Background(), skill, nil)
+	if res.Level != api.Critical {
+		t.Errorf("expected Critical, got %v", res.Level)
+	}
+}
