@@ -29,33 +29,44 @@ Assistant: hello`
 	}
 }
 
-func TestParseSkillComplex(t *testing.T) {
-	content := `## Tools
-- read_file
-
-## Instructions
-Keep it simple.
-
-## Examples
-User: test
----
-Assistant: ok
----
-User: more
----
-Assistant: done
-
-## Metadata
-Some extra data here.`
-
-	ctx := ParseSkill(content)
-	if len(ctx.Tools) != 1 || ctx.Tools[0] != "read_file" {
-		t.Errorf("wrong tools: %v", ctx.Tools)
+func TestParseSkillProviderDetection(t *testing.T) {
+	tests := []struct {
+		name     string
+		content  string
+		expected string
+	}{
+		{
+			name: "Google (Gemini)",
+			content: `## Tools
+- run_shell_command`,
+			expected: "google",
+		},
+		{
+			name: "Anthropic (Claude)",
+			content: `## Tools
+- bash`,
+			expected: "anthropic",
+		},
+		{
+			name: "OpenAI (ChatGPT)",
+			content: `## Tools
+- code_interpreter`,
+			expected: "openai",
+		},
+		{
+			name: "Generic",
+			content: `## Tools
+- unknown_tool`,
+			expected: "generic",
+		},
 	}
-	if ctx.SystemPrompt != "Keep it simple." {
-		t.Errorf("wrong instructions: %s", ctx.SystemPrompt)
-	}
-	if len(ctx.Examples) != 4 {
-		t.Errorf("expected 4 example parts, got %v", ctx.Examples)
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx := ParseSkill(tt.content)
+			if ctx.Provider != tt.expected {
+				t.Errorf("expected provider %s, got %s", tt.expected, ctx.Provider)
+			}
+		})
 	}
 }

@@ -3,6 +3,8 @@ package engine
 import (
 	"regexp"
 	"strings"
+
+	"github.com/albertowar/skillauditai/internal/provider"
 	"github.com/albertowar/skillauditai/pkg/api"
 )
 
@@ -44,6 +46,7 @@ func ParseSkill(content string) api.SkillContext {
 	return api.SkillContext{
 		Raw:          content,
 		Tools:        tools,
+		Provider:     provider.Detect(tools),
 		SystemPrompt: getSection("Instructions"),
 		Examples:     examples,
 	}
