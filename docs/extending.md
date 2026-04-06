@@ -1,4 +1,4 @@
-# Extending SkillAuditAI
+# Extending SkillSec
 
 ## Adding a New Check
 
@@ -10,8 +10,8 @@ package checks
 
 import (
 	"context"
-	"github.com/albertowar/skillauditai/pkg/api"
-	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillsec/pkg/api"
+	"github.com/albertowar/skillsec/internal/behavioral"
 )
 
 type MyNewCheck struct{}

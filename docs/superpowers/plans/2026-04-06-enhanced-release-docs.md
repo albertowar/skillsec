@@ -16,7 +16,7 @@
 ### Task 1: Support Versioning in CLI
 
 **Files:**
-- Modify: `cmd/skillaudit/main.go`
+- Modify: `cmd/skillsec/main.go`
 
 - [ ] **Step 1: Add Version variable and flag handling**
 
@@ -35,7 +35,7 @@ func main() {
     flag.Parse()
 
     if *versionFlag {
-        fmt.Printf("skillaudit version %s\n", Version)
+        fmt.Printf("skillsec version %s\n", Version)
         os.Exit(0)
     }
     // ... rest of main
@@ -45,7 +45,7 @@ func main() {
 - [ ] **Step 2: Commit**
 
 ```bash
-git add cmd/skillaudit/main.go
+git add cmd/skillsec/main.go
 git commit -m "feat: add version flag to CLI"
 ```
 
@@ -60,10 +60,10 @@ git commit -m "feat: add version flag to CLI"
 - [ ] **Step 1: Create `mkdocs.yml`**
 
 ```yaml
-site_name: SkillAuditAI
+site_name: SkillSec
 site_description: Security Auditor for AI Skills
 site_author: AnotherDevBoy
-repo_url: https://github.com/albertowar/skillauditai
+repo_url: https://github.com/albertowar/skillsec
 
 theme:
   name: material
@@ -121,21 +121,21 @@ git commit -m "docs: configure mkdocs for documentation site"
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}
+          OUTPUT_NAME=skillsec-${{ matrix.goos }}-${{ matrix.goarch }}
           if [ "${{ matrix.goos }}" = "windows" ]; then
-            OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
+            OUTPUT_NAME=skillsec-${{ matrix.goos }}-${{ matrix.goarch }}.exe
           fi
-          go build -ldflags "-X main.Version=${{ github.event.inputs.tag_name }}" -o $OUTPUT_NAME ./cmd/skillaudit
+          go build -ldflags "-X main.Version=${{ github.event.inputs.tag_name }}" -o $OUTPUT_NAME ./cmd/skillsec
 
       - name: Generate Checksums
-        run: sha256sum skillaudit-* > checksums.txt
+        run: sha256sum skillsec-* > checksums.txt
 
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag_name }}
           files: |
-            skillaudit-*
+            skillsec-*
             checksums.txt
 ```
 

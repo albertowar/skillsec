@@ -1,7 +1,7 @@
-site_name: SkillAuditAI
+site_name: SkillSec
 site_description: Security Auditor for AI Skills
 site_author: AnotherDevBoy
-repo_url: https://github.com/albertowar/skillauditai
+repo_url: https://github.com/albertowar/skillsec
 
 theme:
   name: material

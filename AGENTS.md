@@ -1,4 +1,4 @@
-# Agent Instructions: SkillAuditAI
+# Agent Instructions: SkillSec
 
 This file provides architectural mandates and type references for AI agents contributing to this repository.
 

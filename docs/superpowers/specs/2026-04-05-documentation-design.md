@@ -2,12 +2,12 @@
 
 **Date:** 2026-04-05
 **Status:** Approved
-**Target:** Implementation of comprehensive developer and user documentation for SkillAuditAI.
+**Target:** Implementation of comprehensive developer and user documentation for SkillSec.
 
 ---
 
 ## 1. Overview
-This design covers the creation of a modular documentation suite for SkillAuditAI, providing both user-facing guides for auditing AI skills and developer-facing documentation for contributing to the core engine.
+This design covers the creation of a modular documentation suite for SkillSec, providing both user-facing guides for auditing AI skills and developer-facing documentation for contributing to the core engine.
 
 ## 2. Documentation Structure
 
@@ -35,7 +35,7 @@ All documentation will be located in the `docs/` directory, following a modular 
 
 ### 2.3 Architecture Overview (`docs/architecture.md`)
 - **The Pipeline:** Diagram and description of the `Parse -> Context -> Check -> Score -> Report` flow.
-- **Package Relationships:** Separation of concerns between `@skillauditai/core` (stateless engine) and `@skillauditai/cli` (I/O wrapper).
+- **Package Relationships:** Separation of concerns between `@skillsec/core` (stateless engine) and `@skillsec/cli` (I/O wrapper).
 - **Behavioral Service:** How the optional LLM-powered "Red Teaming" layer is injected into the audit process.
 
 ### 2.4 Extension Guide (`docs/extending.md`)

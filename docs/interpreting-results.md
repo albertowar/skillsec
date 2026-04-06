@@ -1,6 +1,6 @@
 # Interpreting Audit Results
 
-SkillAuditAI provides a Safety Score from 0 to 10. A higher score indicates a safer skill.
+SkillSec provides a Safety Score from 0 to 10. A higher score indicates a safer skill.
 
 ## Scoring Logic
 

@@ -1,8 +1,8 @@
-# SkillAuditAI Go Migration Implementation Plan
+# SkillSec Go Migration Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Migrate the SkillAuditAI TypeScript codebase to an idiomatic, standalone Go CLI tool using `langchaingo` for behavioral analysis.
+**Goal:** Migrate the SkillSec TypeScript codebase to an idiomatic, standalone Go CLI tool using `langchaingo` for behavioral analysis.
 
 **Architecture:** Internal-first structure with a core engine (`internal/engine`), modular security checks (`internal/checks`), and an LLM-agnostic behavioral layer (`internal/behavioral`) using `langchaingo`. Public types are exposed in `pkg/api`.
 
@@ -18,7 +18,7 @@
 
 - [ ] **Step 1: Initialize Go module**
 
-Run: `go mod init github.com/albertowar/skillauditai`
+Run: `go mod init github.com/albertowar/skillsec`
 Expected: `go.mod` file created.
 
 - [ ] **Step 2: Install core dependencies**
@@ -88,7 +88,7 @@ package engine
 
 import (
 	"testing"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func TestParseSkill(t *testing.T) {
@@ -127,7 +127,7 @@ package engine
 import (
 	"regexp"
 	"strings"
-	"github.com/albertowar/skillauditai/pkg/api"
+	"github.com/albertowar/skillsec/pkg/api"
 )
 
 func ParseSkill(content string) api.SkillContext {
@@ -199,8 +199,8 @@ package checks
 
 import (
 	"context"
-	"github.com/albertowar/skillauditai/pkg/api"
-	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillsec/pkg/api"
+	"github.com/albertowar/skillsec/internal/behavioral"
 )
 
 type Check interface {
@@ -310,8 +310,8 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"github.com/albertowar/skillauditai/pkg/api"
-	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillsec/pkg/api"
+	"github.com/albertowar/skillsec/internal/behavioral"
 )
 
 type DangerousToolsCheck struct{}
@@ -387,9 +387,9 @@ import (
 	"fmt"
 	"sync"
 	"time"
-	"github.com/albertowar/skillauditai/pkg/api"
-	"github.com/albertowar/skillauditai/internal/checks"
-	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillsec/pkg/api"
+	"github.com/albertowar/skillsec/internal/checks"
+	"github.com/albertowar/skillsec/internal/behavioral"
 )
 
 type Auditor struct {
@@ -465,7 +465,7 @@ git commit -m "feat: implement auditor orchestration engine"
 ### Task 7: Implement CLI (main.go)
 
 **Files:**
-- Create: `cmd/skillaudit/main.go`
+- Create: `cmd/skillsec/main.go`
 
 - [ ] **Step 1: Implement main function with flags and table output**
 
@@ -478,15 +478,15 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/albertowar/skillauditai/internal/engine"
-	"github.com/albertowar/skillauditai/internal/behavioral"
+	"github.com/albertowar/skillsec/internal/engine"
+	"github.com/albertowar/skillsec/internal/behavioral"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 )
 
 func main() {
 	format := flag.String("format", "table", "Output format (table|json)")
-	apiKey := flag.String("api-key", os.Getenv("SKILLAUDIT_API_KEY"), "LLM API Key")
+	apiKey := flag.String("api-key", os.Getenv("SKILLSEC_API_KEY"), "LLM API Key")
 	model := flag.String("model", "gemini-1.5-pro", "LLM Model Name")
 	provider := flag.String("provider", "google", "LLM Provider (google|openai)")
 	baseURL := flag.String("base-url", "", "Custom LLM base URL")
@@ -494,7 +494,7 @@ func main() {
 
 	filePath := flag.Arg(0)
 	if filePath == "" {
-		fmt.Println("Usage: skillaudit <skill.md> [flags]")
+		fmt.Println("Usage: skillsec <skill.md> [flags]")
 		os.Exit(1)
 	}
 
@@ -530,6 +530,6 @@ func renderTable(report interface{}) {
 - [ ] **Step 2: Commit**
 
 ```bash
-git add cmd/skillaudit/main.go
+git add cmd/skillsec/main.go
 git commit -m "feat: implement CLI interface and output formatting"
 ```

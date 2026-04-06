@@ -1,4 +1,4 @@
-# SkillAuditAI Implementation Plan
+# SkillSec Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -20,7 +20,7 @@
 - [ ] **Step 1: Create `package.json`**
 ```json
 {
-  "name": "@skillauditai/core",
+  "name": "@skillsec/core",
   "version": "0.1.0",
   "description": "Security auditor for AI skills",
   "main": "dist/index.js",
@@ -298,7 +298,7 @@ import chalk from 'chalk';
 async function run() {
   const filePath = process.argv[2];
   if (!filePath) {
-    console.error('Usage: skillaudit <path-to-skill.md>');
+    console.error('Usage: skillsec <path-to-skill.md>');
     process.exit(1);
   }
 
@@ -307,7 +307,7 @@ async function run() {
   const auditor = new Auditor();
   const report = await auditor.audit(context);
 
-  console.log(chalk.bold(`\nSkillAuditAI Report - Score: ${report.finalScore.toFixed(1)}/10\n`));
+  console.log(chalk.bold(`\nSkillSec Report - Score: ${report.finalScore.toFixed(1)}/10\n`));
   report.results.forEach(r => {
     const color = r.score > 7 ? chalk.green : r.score > 4 ? chalk.yellow : chalk.red;
     console.log(`${color(`[${r.level}]`)} ${chalk.bold(r.name)}: ${r.score}/10`);

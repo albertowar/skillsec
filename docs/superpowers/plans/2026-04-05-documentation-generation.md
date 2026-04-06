@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Create a comprehensive suite of developer and user documentation for SkillAuditAI.
+**Goal:** Create a comprehensive suite of developer and user documentation for SkillSec.
 
 **Architecture:** A modular documentation structure in `docs/` containing usage guides, scoring interpretation, architecture overviews, and extension guides.
 
@@ -20,7 +20,7 @@
 ```markdown
 # CLI Usage Guide
 
-SkillAuditAI provides a command-line interface to audit AI skills against security best practices.
+SkillSec provides a command-line interface to audit AI skills against security best practices.
 
 ## Installation
 
@@ -75,7 +75,7 @@ git commit -m "docs: add CLI usage guide"
 ```markdown
 # Interpreting Audit Results
 
-SkillAuditAI provides a Safety Score from 0 to 10. A higher score indicates a safer skill.
+SkillSec provides a Safety Score from 0 to 10. A higher score indicates a safer skill.
 
 ## Scoring Logic
 
@@ -126,7 +126,7 @@ git commit -m "docs: add interpretation guide"
 ```markdown
 # Architecture Overview
 
-SkillAuditAI is designed as a modular auditing engine.
+SkillSec is designed as a modular auditing engine.
 
 ## The Pipeline
 
@@ -138,14 +138,14 @@ SkillAuditAI is designed as a modular auditing engine.
 
 ## Packages
 
-- `@skillauditai/core`: The stateless auditing engine and check logic.
-- `@skillauditai/cli`: The terminal wrapper for local file I/O.
+- `@skillsec/core`: The stateless auditing engine and check logic.
+- `@skillsec/cli`: The terminal wrapper for local file I/O.
 ```
 
 - [ ] **Step 2: Create `docs/extending.md`**
 
 ```markdown
-# Extending SkillAuditAI
+# Extending SkillSec
 
 ## Adding a New Check
 
@@ -187,7 +187,7 @@ git commit -m "docs: add architecture and extension guides"
 - [ ] **Step 1: Link documentation in root README**
 
 ```markdown
-# SkillAuditAI
+# SkillSec
 
 ... existing content ...
 

@@ -5,14 +5,14 @@
 **Topic:** Improving the GitHub Release Action and setting up MkDocs for documentation deployment.
 
 ## 1. Purpose
-Provide a professional, secure, and well-documented release cycle for SkillAuditAI. This includes self-aware versioning, integrity verification (checksums), and an automated searchable documentation site.
+Provide a professional, secure, and well-documented release cycle for SkillSec. This includes self-aware versioning, integrity verification (checksums), and an automated searchable documentation site.
 
 ## 2. Architecture
 
 ### 2.1 CLI Versioning
 - **Mechanism**: Use Go's `ldflags` to inject a version string at build time.
-- **Variable**: `main.Version` in `cmd/skillaudit/main.go`.
-- **User Interface**: `skillaudit --version` flag.
+- **Variable**: `main.Version` in `cmd/skillsec/main.go`.
+- **User Interface**: `skillsec --version` flag.
 
 ### 2.2 GitHub Release Workflow (`.github/workflows/release.yml`)
 The workflow will be updated to include the following stages:
@@ -39,7 +39,7 @@ The workflow will be updated to include the following stages:
 
 ### 3.1 `mkdocs.yml` Configuration
 ```yaml
-site_name: SkillAuditAI
+site_name: SkillSec
 theme:
   name: material
   palette:
@@ -55,10 +55,10 @@ nav:
 
 ### 3.2 Release Artifacts
 Users will download:
-- `skillaudit-<os>-<arch>` (Binary)
+- `skillsec-<os>-<arch>` (Binary)
 - `checksums.txt` (Integrity verification)
 
 ## 4. Success Criteria
-- [ ] `skillaudit --version` correctly shows the release tag.
+- [ ] `skillsec --version` correctly shows the release tag.
 - [ ] GitHub Release contains a `checksums.txt` file.
-- [ ] Documentation site is live at `https://<user>.github.io/skillauditai/` after a release.
+- [ ] Documentation site is live at `https://<user>.github.io/skillsec/` after a release.

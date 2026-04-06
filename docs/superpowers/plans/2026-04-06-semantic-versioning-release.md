@@ -132,21 +132,21 @@ Modify the `release` job to depend on `calculate-version`, create the tag, and u
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
-          OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}
+          OUTPUT_NAME=skillsec-${{ matrix.goos }}-${{ matrix.goarch }}
           if [ "${{ matrix.goos }}" = "windows" ]; then
-            OUTPUT_NAME=skillaudit-${{ matrix.goos }}-${{ matrix.goarch }}.exe
+            OUTPUT_NAME=skillsec-${{ matrix.goos }}-${{ matrix.goarch }}.exe
           fi
-          go build -ldflags "-X main.Version=$NEXT_VERSION" -o $OUTPUT_NAME ./cmd/skillaudit
+          go build -ldflags "-X main.Version=$NEXT_VERSION" -o $OUTPUT_NAME ./cmd/skillsec
 
       - name: Generate Checksums
-        run: sha256sum skillaudit-* > checksums.txt
+        run: sha256sum skillsec-* > checksums.txt
 
       - name: Upload binaries to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.NEXT_VERSION }}
           files: |
-            skillaudit-*
+            skillsec-*
             checksums.txt
 ```
 

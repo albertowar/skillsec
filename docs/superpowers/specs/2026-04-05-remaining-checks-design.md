@@ -7,7 +7,7 @@
 ---
 
 ## 1. Overview
-This design covers the implementation of the final five audit checks specified in the SkillAuditAI design:
+This design covers the implementation of the final five audit checks specified in the SkillSec design:
 1.  `least-privilege`: Tool usage vs. instructions intent.
 2.  `prompt-injection`: Detection of safety delimiters and jailbreak protections.
 3.  `verified-author`: Author identity validation via Git.
@@ -16,7 +16,7 @@ This design covers the implementation of the final five audit checks specified i
 
 ## 2. Updated Data Structures
 
-### 2.1 `SkillContext` (in `@skillauditai/core`)
+### 2.1 `SkillContext` (in `@skillsec/core`)
 Update the context to support optional metadata provided by the CLI or other enrichers.
 
 ```typescript

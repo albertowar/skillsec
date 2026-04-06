@@ -7,12 +7,12 @@
 ---
 
 ## 1. Overview
-This design extends the `skillauditai` core with advanced security checks focused on data exfiltration, tool chaining, and indirect prompt injection. It introduces an optional behavioral simulation layer that uses an LLM to "test" the skill's instructions when an API key is provided.
+This design extends the `skillsec` core with advanced security checks focused on data exfiltration, tool chaining, and indirect prompt injection. It introduces an optional behavioral simulation layer that uses an LLM to "test" the skill's instructions when an API key is provided.
 
 ## 2. Architecture Updates
 
 ### 2.1 `BehavioralService`
-A new service in `@skillauditai/core` to handle LLM interactions.
+A new service in `@skillsec/core` to handle LLM interactions.
 
 ```typescript
 export interface BehavioralConfig {

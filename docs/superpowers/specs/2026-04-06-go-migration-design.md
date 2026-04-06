@@ -1,4 +1,4 @@
-# Spec: SkillAuditAI Go Migration
+# Spec: SkillSec Go Migration
 
 **Date:** 2026-04-06
 **Status:** Draft
@@ -13,9 +13,9 @@ The goal is to provide a standalone, high-performance executable for auditing AI
 Following Go best practices (Approach 2 from brainstorming):
 
 ```text
-skillauditai/
+skillsec/
 ├── cmd/
-│   └── skillaudit/
+│   └── skillsec/
 │       └── main.go          # CLI Entry point, flag parsing, formatting
 ├── internal/
 │   ├── engine/
@@ -67,7 +67,7 @@ skillauditai/
 - Provides a standard interface for checks to run "probes" against the skill's logic.
 
 ## 3. Data Flow
-1. **Input**: User runs `skillaudit skill.md --api-key xxx`.
+1. **Input**: User runs `skillsec skill.md --api-key xxx`.
 2. **Setup**: `main.go` parses flags and initializes the `Auditor` with a `BehavioralService`.
 3. **Parse**: `Parser` reads `skill.md` and populates `SkillContext`.
 4. **Execute**: `Auditor` spawns goroutines for each `Check`.
