@@ -27,9 +27,23 @@ type AuditReport struct {
 	Timestamp  time.Time     `json:"timestamp"`
 }
 
+type SkillMetadata struct {
+	Author *struct {
+		Name       string `json:"name"`
+		Email      string `json:"email"`
+		IsVerified bool   `json:"isVerified"`
+	} `json:"author,omitempty"`
+	Maintenance *struct {
+		LastUpdated string `json:"lastUpdated"`
+		Version     string `json:"version"`
+	} `json:"maintenance,omitempty"`
+	Dependencies []string `json:"dependencies,omitempty"`
+}
+
 type SkillContext struct {
-	Raw          string   `json:"raw"`
-	Tools        []string `json:"tools"`
-	SystemPrompt string   `json:"systemPrompt"`
-	Examples     []string `json:"examples"`
+	Raw          string         `json:"raw"`
+	Tools        []string       `json:"tools"`
+	SystemPrompt string         `json:"systemPrompt"`
+	Examples     []string       `json:"examples"`
+	Metadata     *SkillMetadata `json:"metadata,omitempty"`
 }

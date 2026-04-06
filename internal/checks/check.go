@@ -19,5 +19,9 @@ type Check interface {
 func AllChecks() []Check {
 	return []Check{
 		&DangerousToolsCheck{},
+		&SecretScanningCheck{},
+		&DependencyAuditCheck{},
+		&VerifiedAuthorCheck{},
+		&MaintenanceCheck{},
 	}
 }
